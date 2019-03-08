@@ -1,9 +1,10 @@
 ---
 title: "BIO8068 Data visualisation in ecology"
-subtitle: "Reproducible research: git, gitlab/github, RMarkdown"
 author: "Roy Sanderson"
-date: "7 March 2019"
-output: html_document
+output:
+  word_document: default
+  html_document: default
+subtitle: 'Reproducible research: git, gitlab/github, RMarkdown'
 ---
 
 ## 1. Introduction
@@ -134,4 +135,33 @@ At this point you might be wondering how to create Word documents. The `Rmarkdow
 install.packages("rmarkdown")
 ```
 
-Now, instead of a standard R script, you are going to create an RMarkdown script. Click on `File
+Now, instead of a standard R script, you are going to create an RMarkdown script. Click on `File -> New File` and select the `R Markdown` option. A setup screen will appear for you to enter details about your document:
+
+![](figs/R_markdown_setup_screen.PNG)
+
+A new `Untitled1` file will be created, that is already pre-populated with some text. Save the file in your project, giving it a name ending in `.Rmd` to indicate that it is markdown format.  Click on the `knit` button at the top of the RMarkdown file and it will be instantly converted into HTML format for viewing. If you want a Word document, that is also available via the down-arrow next to the Knit button. You may have to open Word first, but usually it should display automatically. When preparing documents I tend to work mainly in HTML for previewing the output, as it is slightly quicker to Knit together.
+
+The example script already shows you a lot of features of RMarkdown. You can embed R code, decide whether or not to display the R code, or just the output, decide whether to execute the code, etc. You also have control on text size, can create equations, and so on.  For example `_italics if prefix or suffix with an underscore or one asterisk_` will display _italics if prefix or suffix with an underscore or one asterisk_ whilst `**bold if prefix or suffix with two asterisks**` will give **bold if prefix or suffix with asterisks**. Lines that begin with a `#` symbol control the headings, sub-headings etc., with the more `#` symbols the lower the subheading.  Therefore
+
+`## This is a level 2 heading`
+gives
+
+## This is a level 2 heading
+
+whilst
+`### This is a level 3 heading`
+gives
+
+### This is a level 3 heading
+
+Look at the code "chunks" in the example markdown document. Notice how sets of R commands begin and end with three backslash symbols. The buttons on the right allow you to execute the code in all preceding chunks, or just the one you are working on.
+
+*Exercise* : Copy and paste R code from your oystercatcher analysis script into your new RMarkdown document. Try and write a simple narrative about what you are doing. You will then have a complete document that is reproducible, and shows the results of your analyses.
+
+There is a lot of useful online information on RMarkdown, including a 'cheat sheet' (available from RStudio Help menu), the main website <https://rmarkdown.rstudio.com> and an online book <https://bookdown.org/yihui/rmarkdown/>. The latter was only published in 2019, so this is a fast-moving field. You can even include references and bibliographies in the system (I will admit that I haven't progressed that far yet.)
+
+Finally, this practical schedule was not written in Microsoft Word, it was written in RMarkdown!  As it is hosted on Github, you can download this document and edit and play with it yourself. This will also improve your skills. If you want to clone the RMarkdown file, and all the associated documents, open up a Git command window from the Command Line and type
+
+`git clone https://github.com/rasanderson/BIO8068_reproducible.git`
+
+As this is a public repository, and you are pulling rather than pushing changes, it should not prompt you for a username or password.
