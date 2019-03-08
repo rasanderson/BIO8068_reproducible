@@ -14,7 +14,19 @@ When you are undertaking large complex analyses, it is easy to end up with multi
 * explain how to write documents in RStudio RMarkdown that automatically generate Word reports, with R graphs and tables already embedded in them.
 
 ## 2. git version control
-The most popular version control system is git, which is installed on the Campus machines. It is freely-available, and there is excellent tutorial information at <https://git-scm.com/> . It was originally a Linux-based (Unix) system for version control, but has been ported to Windows; it can be run through a command prompt (either from Windows, or within RStudio) but this can be tricky to get used to if you are unfamiliar with Linux. However, only a small number of commands are needed to get started, and we will focus on using git through the GUI.
+The most popular version control system is git, which is installed on the Campus machines. It is freely-available, and there is excellent tutorial information at <https://git-scm.com/> . It was originally a Linux-based (Unix) system for version control, but has been ported to Windows; it can be run through a command prompt (either from Windows, or within RStudio) but this can be tricky to get used to if you are unfamiliar with Linux. However, only a small number of commands are needed to get started, and we will focus on using git through the GUI.  Remember that your common working pattern is to create files/scripts, save them, edit them, save them *again*. Git allows you to keep track of this process. Specifically, that last step:
+
+* When you saved it again
+* Why you saved it again
+* What the contents of the change were
+
+This allows you to track the history of changes you've made to a file:
+
+![](figs/history_tracking_in_general.PNG)
+
+If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
+
+![](figs/history_tracking_in_collaborative.PNG)
 
 We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
 
@@ -24,26 +36,102 @@ Ensure that you tick the box labelled git version control. When your project sta
 
 ![](figs/git_tab_initial.PNG)
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. Before going any further, it would be useful to configure git so that it knows your email address and name (particularly useful for collaborative projects). This needs to be done from a git command line; click on the Cogwheel symbol labelled `More` in the RStudio Git tab, and click on `Command Shell`. A blank window will appear, in which you should enter the following (changed for your name and email):
+
+```{r git setup, eval=FALSE}
+git config --global user.name 'Your Name'
+git config --global user.email 'your.email@newcastle.ac.uk'
 ```
 
-## R Markdown
+Type `exit` to close the git command window. You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, and submit your commit:
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+![](figs/git_commit_window_in_R.PNG)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+It is possible you may get a warning message about the author name and email (sometimes the configuration does not store correctly on Windows), in which case simple follow the instructions (check with me):
 
-```{r cars}
-summary(cars)
+```{r git warning messages, eval=FALSE}
+git config --global --edit
+git commit --amend --reset-author
 ```
 
-## Including Plots
+You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
 
-You can also embed plots, for example:
+![](figs/git_workflow.PNG)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. However, it is important that your messages with your commits are clear and informative:
+
+* added function to display land cover map (good)
+* corrected bug in second ggplot call for scatter plot of farms (good)
+* fixed some bugs (bad)
+* edited the display_sheep function (bad)
+
+Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits.
+
+## 3. Add some files and start editing
+Copy your data folder and R script from the oystercatchers example into your git_example folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
+
+Now start to edit your oystercatcher.R file (or whatever you called it). In my version, there are very few comments, and I have also not set up easy navigation of the file by creating a table of contents (ToC). You can do the latter by adding `####` or `----` at the end of any comment line. The text in the comment will be added to the ToC, which can be easily accessed from the click box at the bottom of the editor window, or pressing the button on the top right. This is very useful for long R scripts to help you navigate. Tidy up your R code, save your file.
+
+After saving your file git should automatically spot that it has been modified, and the R script will be displayed in the git window, with a blue 'M' for modified symbol next to it. Should it not display, click on the clockwise 'refresh' arrow at the top right. Stage the file (click the checkbox) and make another commit again with a suitable message.  You will notice that additions are highlighted in green, deletions in red, for example:
+
+![](figs/red_and_green_review_pain.PNG)
+
+You will recall that the three-way interaction term in the oystercatcher data was meaningless, so edit your R script again to include the the analysis omitting the 3-way term, and summarise the results. Rather than re-specify the whole model, the update function is useful:
+
+```{r 3-way update, eval=FALSE}
+# model without 3-way
+M2 <- update(M1, . ~ . -Month:FeedingPlot:FeedingType)
+summary(M2)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Save the script and make another commit, with suitable message. Finally, perhaps it would be useful to plot some diagnostic plots for your new model, to check that it is OK. Make some more edits, save the file again, and undertake another commit with suitable message. *Note*: in reality, these commits are on far too minor changes for them to be worthwhile, and typically you would be making much more substantial changes before committing them in git.
+
+Now, if in the git tab you click on the "History" button you will see a list of your commits, with comments:
+
+![](figs/history_in_RStudio.PNG)
+
+(*Note*: on some Windows 10 PCs the author emails are not always configured correctly, as you can see here).
+
+## 4. Github and Gitlab
+Github and Gitlab provide "remote" repositories, which allow you to push or pull or your git files, plus their entire history, to the online site. They both have user-friendly interfaces, and are similar to use, and free to register. Github is much more popular (it is the older system) and is a commercial, close-source product. Gitlab is newer, open-source (you can host it on your own server). From the user's perspective, on Github anyone can view your repositories unless you pay a monthly subscription, whereas on Gitlab you can have private or public repositories at now charge. However, nearly all the documentation online you will encounter will relate to Github, so we will use that for this module.
+
+Begin by going to <https://github.com> and registering for a free account. After you have entered all your details, and confirmed your email and username. Click the large *+* sign to add a new repository, giving it the same name as your example RStudio project. Here is a screenshot of the appearance for me:
+
+![](figs/github_new_repository.PNG)
+
+Set the repository as public (default) and don't add a ReadMe file. The following screen (or similar) will be displayed:
+
+![](figs/github_quick_setup_screen.PNG)
+
+You already have an existing (local) repository on your machine, so it is the second option you want. Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
+
+```{r github setup commands, eval=FALSE}
+git remote add origin https://github.com/rasanderson/git_example.git
+git push -u origin master
+```
+
+In RStudio, from the Git tab open the Command window, and enter the above lines. You will probably receive an error as it will need to know your Github username and password. Once these are entered, your files will be uploaded onto Github. If you go back to Github, you will see your R script, R project files, and the data folder all listed, plus all the commits:
+
+![](figs/github_commits.PNG)
+
+This is very useful. For example, I find that I can commit and push work from inside RStudio, you can use the Pull and Push buttons, which becom active in RStudio once Github is connected. Then if I am working at home I can 'Pull' the latest version of the code, edit it, 'Push' it back to the repository. On return to the office the following day, I then 'Pull' the changes back from Github. No more need to carry USB sticks around or forget what changes you made!
+
+Git and Github are both extremely powerful tools, and there are large amounts of online tutorials and videos available. Useful tricks include creating 'branches' to test out new ideas, or moving the 'head' back to an earlier position if you want to work on and older version of your research. The easiest way to learn is to play around with a dummy R script, pushing and pulling changes from different commits. If you make a mistake it doesn't matter.
+
+## 5. Reproducible research
+Ideally you want to be able to create reproducible your research, so that it can be undertaken by someone else, following your instructions, in the same way as you would a laboratory report. If you are writing your own documents, you want to ensure that the text in it accords exactly with the data. This is why it is best to clean up the raw data in R, rather than editing it in Excel. RStudio projects greatly facilitate good practice, for example in an RStudio project folder I often have separate sub-folders for
+
+* data (raw data)
+* figs (usually ggplot figs or maps generated by R)
+* R ( if it is a very complex set of analyses, I might put R functions into their own sub-folder, and use the `source` function at the start of a `main.R` script in the project folder itself)
+
+Depending on the complexity of the project, you might want output folders for Word documents or processed data.
+
+At this point you might be wondering how to create Word documents. The `Rmarkdown` and `knitr` packages provide a powerful method of writing text in R, and creating high-quality documents.  Begin by installing the rmarkdown package:
+
+```{r install rmarkdown, eval=FALSE}
+# Install rmarkdown from CRAN
+install.packages("rmarkdown")
+```
+
+Now, instead of a standard R script, you are going to create an RMarkdown script. Click on `File
