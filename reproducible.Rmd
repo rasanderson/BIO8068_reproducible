@@ -119,7 +119,22 @@ This is very useful. For example, I find that I can commit and push work from in
 
 Git and Github are both extremely powerful tools, and there are large amounts of online tutorials and videos available. Useful tricks include creating 'branches' to test out new ideas, or moving the 'head' back to an earlier position if you want to work on and older version of your research. The easiest way to learn is to play around with a dummy R script, pushing and pulling changes from different commits. If you make a mistake it doesn't matter.
 
-## 5. Reproducible research
+## 5. Using Github Classroom
+### 5.1 Setup
+I have created a 'classroom' account on Github, with versions of the oystercatcher exercise you did with me last week. You can use this to create a new R Project that will be automatically linked to Github. You can then create a 'branch' to work on, edit it, and ask me to comment on your changes before merging back into your existing workflow.  Go onto Blackboard, and under the Learning Materials navigate to the Oystercatchers Example and click on <https://classroom.github.com/a/Gy98rpXP>. Follow the instructions, and it should copy all the material from my Github Classroom onto your own Github account. Your Oystercatcher repository will probably have your Github username appended to it. You should also receive a confirmatory email. One your Oystercatcher repository that you have just created on Github, click on the "Clone or Download" button, and copy the https address (there is a small button to copy it). Here is an example for a student called "bio8068person":
+
+![](figs/github_classroom_clone.PNG)
+
+Close any R Projects you have open, and click on File -> New Project. If git is configured properly, you should be able to check out a project from version control:
+
+![](figs/R_new_project.PNG)
+
+On the next screen select the Git option, and paste into the URL the web address that you have just created. Store your R project in a suitable folder. All the data files and R scripts will now be available on your local machine. After you have made commits, you can push them back to Github.
+
+### 5.2 Allowing others to comment on your code
+If you want me to comment on your code, the simplest thing is to create a branch, either in RStudio or preferably in Github (pull the changes back). Make a few edits, commits, and push to Github. Then issue a "pull request". You can enter some comments, e.g. "Does this look OK?". I should then receive and email with a link to your code, which I can comment on. Once we agree that the code looks OK, we can merge your branch back into the main code, and you can continue working. We can explore this interactively during the practicals so that we are all confident with this method of collaboration.
+
+## 6. Reproducible research
 Ideally you want to be able to create reproducible your research, so that it can be undertaken by someone else, following your instructions, in the same way as you would a laboratory report. If you are writing your own documents, you want to ensure that the text in it accords exactly with the data. This is why it is best to clean up the raw data in R, rather than editing it in Excel. RStudio projects greatly facilitate good practice, for example in an RStudio project folder I often have separate sub-folders for
 
 * data (raw data)
