@@ -1,20 +1,21 @@
 ---
-title: "BIO8068 Data visualisation in ecology"
-author: "Roy Sanderson"
+title: 'Reproducible research: git, GitHub, RMarkdown'
+subtitle: BIO8068 Data visualisation in ecology
 output:
-  word_document: default
-  html_document: default
-subtitle: 'Reproducible research: git, gitlab/github, RMarkdown'
+  html_document:
+    df_print: paged
+  word_document:
+    reference_docx: template.docx
 ---
 
-## 1. Introduction
+# 1. Introduction
 When you are undertaking large complex analyses, it is easy to end up with multiple R scripts, and therefore become confused as to which version is the correct one for your report. Before _version control_ systems were introduced this was a common problem, and I will admit to having some (published) research where relevant scripts include `main_analysis.R`, `main_analysis_final.R`, `main_analysis_final_v2.R` etc. You may have encountered similar problems using Microsoft Word for reports. Another challenge is that of word-processing the Microsoft Word document, then copying and pasting the relevant graphs or tables from RStudio into Word. If your data changes even slightly, all the numbers, tables and graphs will need to be re-copied, and it is easy to make an error.  The aim of this practical is to:
 
 * introduce you to version control using git
-* show you how to use remote repositories on gitlab or github
+* show you how to use remote repositories on GitHub
 * explain how to write documents in RStudio RMarkdown that automatically generate Word reports, with R graphs and tables already embedded in them.
 
-## 2. git version control
+# 2. git version control
 The most popular version control system is git, which is installed on the Campus machines. It is freely-available, and there is excellent tutorial information at <https://git-scm.com/> . It was originally a Linux-based (Unix) system for version control, but has been ported to Windows; it can be run through a command prompt (either from Windows, or within RStudio) but this can be tricky to get used to if you are unfamiliar with Linux. However, only a small number of commands are needed to get started, and we will focus on using git through the GUI.  Remember that your common working pattern is to create files/scripts, save them, edit them, save them *again*. Git allows you to keep track of this process. Specifically, that last step:
 
 * When you saved it again
@@ -28,6 +29,43 @@ This allows you to track the history of changes you've made to a file:
 If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
 
 ![](figs/history_tracking_in_collaborative.PNG)
+
+## 2.1 Checking if git is installed
+Git is a separate program to RStudio and so needs to be setup independently. First of all you have to check whether git has already been installed onto your machine; it varies and it may have already installed it indirectly from another programme. To check, the easiest method is to use the command 'shell'. This is a window into which you can type commands that the computer's underlying operating system understand. The easiest way of doing this is from inside RStudio. Simply click on the menu `Tools -> Terminal -> New Terminal` and you should notice that instead of the RStudio Console window, you now have an RStudio Terminal window. The only obvious difference is that the Console window begins:
+
+`>`
+
+as it expects you to enter R commands, whereas the Terminal window begins:
+
+`$`
+
+as it expects you to enter Windows, Mac or Linux commands. To check whether git is already installed, at the `$` prompt type:
+
+`which git`
+
+to simply ask the computer to tell you which (if any) version of git it is using. On a Windows machine it will probably return something like:
+
+`/mingw64/bin/git`
+
+whilst on a Mac you may see
+
+`/usr/local/bin/git`
+
+If you get either of the above, then you can also check which version of git you are using:
+
+`git --version`
+
+and this is returning `git version 2.20.1.windows.1` for me. However, if you receive:
+
+`which: no git in (/ming64/bin:/usr/bin:/c/Users/nras/bin:/c/R-4.0.2/bin/x64:/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/c/WINDOWS/system32:/c/WINDOWS)`
+
+or
+
+`which: git not found`
+
+then you need to install it. Fortunately, it is free, and easy to install.
+
+## 2.2 Installing git on your PC or Mac
 
 We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
 
@@ -68,7 +106,7 @@ In practice I use git in a fairly simple way, in that as soon as I have staged m
 
 Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits.
 
-## 3. Add some files and start editing
+# 3. Add some files and start editing
 Copy your data folder and R script from the oystercatchers example into your git_example folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
 
 Now start to edit your oystercatcher.R file (or whatever you called it). In my version, there are very few comments, and I have also not set up easy navigation of the file by creating a table of contents (ToC). You can do the latter by adding `####` or `----` at the end of any comment line. The text in the comment will be added to the ToC, which can be easily accessed from the click box at the bottom of the editor window, or pressing the button on the top right. This is very useful for long R scripts to help you navigate. Tidy up your R code, save your file.
@@ -93,7 +131,7 @@ Now, if in the git tab you click on the "History" button you will see a list of 
 
 (*Note*: on some Windows 10 PCs the author emails are not always configured correctly, as you can see here).
 
-## 4. Github and Gitlab
+# 4. Github and Gitlab
 Github and Gitlab provide "remote" repositories, which allow you to push or pull or your git files, plus their entire history, to the online site. They both have user-friendly interfaces, and are similar to use, and free to register. Github is much more popular (it is the older system) and is a commercial, close-source product. Gitlab is newer, open-source (you can host it on your own server). From the user's perspective, on Github anyone can view your repositories unless you pay a monthly subscription, whereas on Gitlab you can have private or public repositories at now charge. However, nearly all the documentation online you will encounter will relate to Github, so we will use that for this module.
 
 Begin by going to <https://github.com> and registering for a free account. After you have entered all your details, and confirmed your email and username. Click the large *+* sign to add a new repository, giving it the same name as your example RStudio project. Here is a screenshot of the appearance for me:
@@ -119,8 +157,8 @@ This is very useful. For example, I find that I can commit and push work from in
 
 Git and Github are both extremely powerful tools, and there are large amounts of online tutorials and videos available. Useful tricks include creating 'branches' to test out new ideas, or moving the 'head' back to an earlier position if you want to work on and older version of your research. The easiest way to learn is to play around with a dummy R script, pushing and pulling changes from different commits. If you make a mistake it doesn't matter.
 
-## 5. Using Github Classroom
-### 5.1 Setup
+# 5. Using Github Classroom
+## 5.1 Setup
 I have created a 'classroom' account on Github, with versions of the oystercatcher exercise you did with me last week. You can use this to create a new R Project that will be automatically linked to Github. You can then create a 'branch' to work on, edit it, and ask me to comment on your changes before merging back into your existing workflow.  Go onto Blackboard, and under the Learning Materials navigate to the Oystercatchers Example and click on <https://classroom.github.com/a/Gy98rpXP>. Follow the instructions, and it should copy all the material from my Github Classroom onto your own Github account. Your Oystercatcher repository will probably have your Github username appended to it. You should also receive a confirmatory email. One your Oystercatcher repository that you have just created on Github, click on the "Clone or Download" button, and copy the https address (there is a small button to copy it). Here is an example for a student called "bio8068person":
 
 ![](figs/github_classroom_clone.PNG)
@@ -131,10 +169,10 @@ Close any R Projects you have open, and click on File -> New Project. If git is 
 
 On the next screen select the Git option, and paste into the URL the web address that you have just created. Store your R project in a suitable folder. All the data files and R scripts will now be available on your local machine. After you have made commits, you can push them back to Github.
 
-### 5.2 Allowing others to comment on your code
+## 5.2 Allowing others to comment on your code
 If you want me to comment on your code, the simplest thing is to create a branch, either in RStudio or preferably in Github (pull the changes back). Make a few edits, commits, and push to Github. Then issue a "pull request". You can enter some comments, e.g. "Does this look OK?". I should then receive and email with a link to your code, which I can comment on. Once we agree that the code looks OK, we can merge your branch back into the main code, and you can continue working. We can explore this interactively during the practicals so that we are all confident with this method of collaboration.
 
-## 6. Reproducible research
+# 6. Reproducible research
 Ideally you want to be able to create reproducible your research, so that it can be undertaken by someone else, following your instructions, in the same way as you would a laboratory report. If you are writing your own documents, you want to ensure that the text in it accords exactly with the data. This is why it is best to clean up the raw data in R, rather than editing it in Excel. RStudio projects greatly facilitate good practice, for example in an RStudio project folder I often have separate sub-folders for
 
 * data (raw data)
