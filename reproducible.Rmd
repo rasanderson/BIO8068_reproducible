@@ -2,10 +2,10 @@
 title: 'Reproducible research: git, GitHub, RMarkdown'
 subtitle: BIO8068 Data visualisation in ecology
 output:
-  html_document:
-    df_print: paged
   word_document:
     reference_docx: template.docx
+  html_document:
+    df_print: paged
 ---
 
 # 1. Introduction
@@ -15,8 +15,8 @@ When you are undertaking large complex analyses, it is easy to end up with multi
 * show you how to use remote repositories on GitHub
 * explain how to write documents in RStudio RMarkdown that automatically generate Word reports, with R graphs and tables already embedded in them.
 
-# 2. git version control
-The most popular version control system is git, which is installed on the Campus machines. It is freely-available, and there is excellent tutorial information at <https://git-scm.com/> . It was originally a Linux-based (Unix) system for version control, but has been ported to Windows; it can be run through a command prompt (either from Windows, or within RStudio) but this can be tricky to get used to if you are unfamiliar with Linux. However, only a small number of commands are needed to get started, and we will focus on using git through the GUI.  Remember that your common working pattern is to create files/scripts, save them, edit them, save them *again*. Git allows you to keep track of this process. Specifically, that last step:
+# 2. Version control with git
+The most popular version control system is git, which is installed on the Campus machines. It is freely-available, and there is excellent tutorial information at <https://git-scm.com/> . Even better, Jenny Bryan has written an excellent online book **Happy Git with R** aimed at RStudio users with no prior knowledge of git, which can be found at <https://happygitwithr.com/index.html>. Git was originally a Linux-based (Mac and Unix) system for version control, but has been ported to Windows; it can be run through a command prompt (either from Windows, or within RStudio) but this can be tricky to get used to if you are unfamiliar with Linux. However, only a small number of commands are needed to get started, and we will focus on using git through the GUI.  Remember that your common working pattern is to create files/scripts, save them, edit them, save them *again*. Git allows you to keep track of this process. Specifically, that last step:
 
 * When you saved it again
 * Why you saved it again
@@ -26,11 +26,11 @@ This allows you to track the history of changes you've made to a file:
 
 ![](figs/history_tracking_in_general.PNG)
 
-If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
+Most importantly, if you need to, you can easily go back to an earlier version of your file. If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
 
 ![](figs/history_tracking_in_collaborative.PNG)
 
-## 2.1 Checking if git is installed
+## 2.1 Checking if git is already installed
 Git is a separate program to RStudio and so needs to be setup independently. First of all you have to check whether git has already been installed onto your machine; it varies and it may have already installed it indirectly from another programme. To check, the easiest method is to use the command 'shell'. This is a window into which you can type commands that the computer's underlying operating system understand. The easiest way of doing this is from inside RStudio. Simply click on the menu `Tools -> Terminal -> New Terminal` and you should notice that instead of the RStudio Console window, you now have an RStudio Terminal window. The only obvious difference is that the Console window begins:
 
 `>`
@@ -66,6 +66,31 @@ or
 then you need to install it. Fortunately, it is free, and easy to install.
 
 ## 2.2 Installing git on your PC or Mac
+There are several git packages available, but you'll probably find the "official" ones easiest, at <https://git-scm.com/download/> where you should see something similar to:
+
+![](figs/download_git.png)
+
+If during the **Windows** installation note that:
+
+* When asked about “Adjusting your PATH environment”, make sure to select “Git from the command line and also from 3rd-party software”. Otherwise, accept the defaults.
+* RStudio for Windows sometimes prefers for Git to be installed below `C:/Program Files` and this appears to be the default. This implies, for example, that the Git executable is found at `C:/Program Files/Git/bin/git.exe`. Unless you have specific reasons to otherwise, follow this convention. However, on my NUIT-managed PC, a slightly different installation has been used and git is in the `C:/Users` roaming profile area, as multiple users have accounts. Nevertheless, RStudio still locates it successfully.
+
+For **Mac OS** machines git installation is usually straightforward, but let me know if you have any problems.
+
+# 3. Git configuration
+Before you can use git it is best to configure it properly. At a minimum, it is useful to tell it your name and email address. At the `$` prompt, i.e. in the **Terminal** window in RStudio, **not** the R Console windows, type, using your email and username, the following. I recommend using `@newcastle.ac.uk` rather than `@ncl.ac.uk` in your email:
+
+`git config --global user.name 'John Smith'`
+
+`git config --global user.email 'j.smith123@newcastle.ac.uk'`
+
+`git config --global --list`
+
+The last command simply checks that git has stored the configuration correctly, and should return the information you have just entered. Having your email and username configured is particularly useful should you do any collaborative work so that it is easy to track who has made which changes.
+
+# 4. What is a "Repository"?
+As soon as you start reading about git, you will come across the word _repository_, often shortened to "repo". A repository is simply a folder that is under git version control. It contains some special files and folders to track all the different edits and changes you are making to your R scripts. Importantly, a repository can also be "pushed" or "pulled" to and from a remote webserver, to allow easy collaboration. Indeed, even if doing a project on your own, it is sometimes easier if you also use a **remote** repository, as I find it saves me having to remember to copy files from my PC at work, to my laptop at home etc.
+
 
 We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
 
@@ -76,11 +101,6 @@ Ensure that you tick the box labelled git version control. When your project sta
 ![](figs/git_tab_initial.PNG)
 
 At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. Before going any further, it would be useful to configure git so that it knows your email address and name (particularly useful for collaborative projects). This needs to be done from a git command line; click on the Cogwheel symbol labelled `More` in the RStudio Git tab, and click on `Command Shell`. A blank window will appear, in which you should enter the following (changed for your name and email):
-
-```{r git setup, eval=FALSE}
-git config --global user.name 'Your Name'
-git config --global user.email 'your.email@newcastle.ac.uk'
-```
 
 Type `exit` to close the git command window. You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, and submit your commit:
 
