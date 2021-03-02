@@ -96,70 +96,8 @@ Before you can use git it is best to configure it properly. At a minimum, it is 
 The last command simply checks that git has stored the configuration correctly, and should return the information you have just entered. Having your email and username configured is particularly useful should you do any collaborative work so that it is easy to track who has made which changes.
 
 # 4. What is a "Repository"?
-As soon as you start reading about git, you will come across the word _repository_, often shortened to "repo". A repository is simply a folder that is under git version control. It contains some special files and folders to track all the different edits and changes you are making to your R scripts. Importantly, a **local repository** stored on your own PC can also be "pushed" or "pulled" to and from an internet server, where it is called a **remote repository**. This allows easy collaboration. Even if doing a project on your own, it is sometimes easier if you also use a remote repository as it saves having to remember to copy files from e.g a PC at work, to a laptop at home etc.
+As soon as you start reading about git, you will come across the word _repository_, often shortened to *repo*. A repository is simply a folder that is under git version control. It contains some special files and folders to track all the different edits and changes you are making to your R scripts. Importantly, a **local repository** stored on your own PC can also be "pushed" or "pulled" to and from an internet server, where it is called a **remote repository**. This allows easy collaboration. Even if doing a project on your own, it is sometimes easier if you also use a remote repository as it saves having to remember to copy files from e.g a PC at work, to a laptop at home etc. The most widely used hosting service for remote repositories is GitHub
 
-
-We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
-
-![](figs/local_git_setup_in_R.PNG) 
-
-Ensure that you tick the box labelled git version control. When your project starts up it will look no different from any other project, except a file labelled `.gitignore` will have appeared. In this files you can list the names of other files and folders that you do *not* want to be monitored by your version control system. This might be e.g. a `data` folder containing a large amount of raw data that rarely changes. The other difference from a standard R Project is that there is now a `git` tab in the top-right panel:
-
-![](figs/git_tab_initial.PNG)
-
-At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. Before going any further, it would be useful to configure git so that it knows your email address and name (particularly useful for collaborative projects). This needs to be done from a git command line; click on the Cogwheel symbol labelled `More` in the RStudio Git tab, and click on `Command Shell`. A blank window will appear, in which you should enter the following (changed for your name and email):
-
-Type `exit` to close the git command window. You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, and submit your commit:
-
-![](figs/git_commit_window_in_R.PNG)
-
-You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
-
-![](figs/git_workflow.PNG)
-
-In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. This is the easiest thing to do if (like me!) you still haven't learnt the full power of git. However, it is important that your messages with your commits are clear and informative:
-
-**Good commit messages**
-
-* added a function to display land cover map
-* corrected bug in second ggplot call for scatter plot of farms
-* linear model results displayed in formatted table
-* interactive slider for year added
-
-**Weak or ambiguous commit message**
-
-* fixed some bugs
-* edited the display_sheep function
-* corrected faulty code in graph
-
-Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits. A common question is **
-
-# 3. Add some files and start editing
-Copy your data folder and R script from the `oystercatchers` example into your `git_example` folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
-
-Now start to edit your `oystercatcher.R` file (or whatever you called it). In my version, there are very few comments, and I have also not set up easy navigation of the file by creating a table of contents (ToC). You can do the latter by adding `####` or `----` at the end of any comment line. The text in the comment will be added to the ToC, which can be easily accessed from the click box at the bottom of the editor window, or pressing the button on the top right. This is very useful for long R scripts to help you navigate. Tidy up your R code, save your file.
-
-After saving your file git should automatically spot that it has been modified, and the R script will be displayed in the git window, with a blue 'M' for modified symbol next to it. Should it not display, click on the clockwise 'refresh' arrow at the top right. Stage the file (click the checkbox) and make another commit again with a suitable message.  You will notice that additions are highlighted in green, deletions in red, for example:
-
-![](figs/red_and_green_review_pain.PNG)
-
-You will recall that the three-way interaction term in the oystercatcher data was meaningless, so edit your R script again to include the the analysis omitting the 3-way term, and summarise the results. Rather than re-specify the whole model, the update function is useful:
-
-```{r 3-way update, eval=FALSE}
-# model without 3-way
-M2 <- update(M1, . ~ . -Month:FeedingPlot:FeedingType)
-summary(M2)
-```
-
-Save the script and make another commit, with suitable message. Finally, perhaps it would be useful to plot some diagnostic plots for your new model, to check that it is OK. Make some more edits, save the file again, and undertake another commit with suitable message. *Note*: in reality, these commits are on far too minor changes for them to be worthwhile, and typically you would be making much more substantial changes before committing them in git.
-
-Now, if in the git tab you click on the "History" button you will see a list of your commits, with comments:
-
-![](figs/history_in_RStudio.PNG)
-
-(*Note*: on some University Cluster Windows 10 PCs the author emails are not always configured correctly, as you can see here).
-
-# 4. Github
 Github provides "remote" repositories, which allow you to push or pull or your git files, plus their entire history, to the online site. It has a user-friendly interface, and free to register. On Github anyone can view your repositories unless you pay a monthly subscription, or based in higher education, when you can have private or public repositories at now charge. Alternative systems such as GitLab exist which are very similar, however, nearly all the documentation online you will encounter will relate to Github, so we will use that for this module.
 
 Begin by going to <https://github.com> and registering for a free account. You will have to enter a username and email. Use you University email address, but I do not recommend you use your University username. This is partly on security grounds (your username is a fairly long alphanumeric code), but more importantly after you have graduated you may want to continue using GitHub in your professional career. Good usernames are something meaningful, based on your real forename, surname or initials. A few suggestions:
@@ -183,6 +121,8 @@ Until July 2020 GitHub offer two methods of accessing 'pushing' your files to th
 It is possible that you already have keys setup. The easiest way of doing this is inside RStudio click on the "Tools -> Global options -> Git/SVN" menus, and you might see a screen like this:
 
 ![](figs/rstudio_git_svn_window.png)
+
+**Note** Please ensure that you tick the box "Enable version control interface to RStudio projects" in the above window.
 
 You can see that I have something already listed in ths SSH RSH key box, because I have already setup the relevant keys. It might be blank for you if this is the first time that you have used it. Assuming you do not have keys setup, click on the button **Create RSA key**. RStudio will prompt you for a passphrase, but this is optional and for simplicity I don't bother setting one up. Click **Create** and RStudio will create two files:
 
@@ -248,6 +188,69 @@ On the screen that is displayed, on the left-hand side pick the menu tab called 
 Into the *Title* box enter something informative such as "My laptop" or "University account" etc. Then in the box below, simply paste the mysterious cryptic text of the public key that you copied from RStudio. Finally click the green button "Add SSH key".
 
 You'll be relieved to know that these steps only have to be done once on your computer. However, if you have multiple computers, you will have to create additional private-public SSH keys. So I have a key-pair for the computer in my office at work, and a separate one for my laptop, both registered with Github.
+
+
+
+
+We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
+
+![](figs/local_git_setup_in_R.PNG) 
+
+Ensure that you tick the box labelled git version control. When your project starts up it will look no different from any other project, except a file labelled `.gitignore` will have appeared. In this files you can list the names of other files and folders that you do *not* want to be monitored by your version control system. This might be e.g. a `data` folder containing a large amount of raw data that rarely changes. The other difference from a standard R Project is that there is now a `git` tab in the top-right panel:
+
+![](figs/git_tab_initial.PNG)
+
+At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. Before going any further, it would be useful to configure git so that it knows your email address and name (particularly useful for collaborative projects). This needs to be done from a git command line; click on the Cogwheel symbol labelled `More` in the RStudio Git tab, and click on `Command Shell`. A blank window will appear, in which you should enter the following (changed for your name and email):
+
+Type `exit` to close the git command window. You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, and submit your commit:
+
+![](figs/git_commit_window_in_R.PNG)
+
+You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
+
+![](figs/git_workflow.PNG)
+
+In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. This is the easiest thing to do if (like me!) you still haven't learnt the full power of git. However, it is important that your messages with your commits are clear and informative:
+
+**Good commit messages**
+
+* added a function to display land cover map
+* corrected bug in second ggplot call for scatter plot of farms
+* linear model results displayed in formatted table
+* interactive slider for year added
+
+**Weak or ambiguous commit message**
+
+* fixed some bugs
+* edited the display_sheep function
+* corrected faulty code in graph
+
+Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits. A common question is **
+
+# 3. Add some files and start editing
+Copy your data folder and R script from the `oystercatchers` example into your `git_example` folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
+
+Now start to edit your `oystercatcher.R` file (or whatever you called it). In my version, there are very few comments, and I have also not set up easy navigation of the file by creating a table of contents (ToC). You can do the latter by adding `####` or `----` at the end of any comment line. The text in the comment will be added to the ToC, which can be easily accessed from the click box at the bottom of the editor window, or pressing the button on the top right. This is very useful for long R scripts to help you navigate. Tidy up your R code, save your file.
+
+After saving your file git should automatically spot that it has been modified, and the R script will be displayed in the git window, with a blue 'M' for modified symbol next to it. Should it not display, click on the clockwise 'refresh' arrow at the top right. Stage the file (click the checkbox) and make another commit again with a suitable message.  You will notice that additions are highlighted in green, deletions in red, for example:
+
+![](figs/red_and_green_review_pain.PNG)
+
+You will recall that the three-way interaction term in the oystercatcher data was meaningless, so edit your R script again to include the the analysis omitting the 3-way term, and summarise the results. Rather than re-specify the whole model, the update function is useful:
+
+```{r 3-way update, eval=FALSE}
+# model without 3-way
+M2 <- update(M1, . ~ . -Month:FeedingPlot:FeedingType)
+summary(M2)
+```
+
+Save the script and make another commit, with suitable message. Finally, perhaps it would be useful to plot some diagnostic plots for your new model, to check that it is OK. Make some more edits, save the file again, and undertake another commit with suitable message. *Note*: in reality, these commits are on far too minor changes for them to be worthwhile, and typically you would be making much more substantial changes before committing them in git.
+
+Now, if in the git tab you click on the "History" button you will see a list of your commits, with comments:
+
+![](figs/history_in_RStudio.PNG)
+
+(*Note*: on some University Cluster Windows 10 PCs the author emails are not always configured correctly, as you can see here).
 
 
 
