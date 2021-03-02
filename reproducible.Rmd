@@ -220,7 +220,7 @@ Into the **Repository URL:** paste your version of the `git@github.com:rasanders
 Finally, click **Create Project** to automatically create the project and download the information from GitHub.
 
 # 7. Making your first commit
-When you create an RStudio project it automically creates a file that ends in `.RProj` to contain the various settings associated with that project. You can change these settings at any time via the "Tools -> Project options" main menu. At first sight this new project will appear the same as any other, except the Files tab also shows the .gitignore file created in GitHub. In the top-right panel, you will also now see a tab labelled "Git". Click on this and you will probably see:
+When you create an RStudio project it automically creates a file that ends in `.RProj` to contain the various settings associated with that project. You can change these settings at any time via the "Tools -> Project options" main menu. At first sight this new project will appear the same as any other, except the Files tab also shows the `.gitignore` file created in GitHub. (If you asked for a `README` file this will also be listed.) In the top-right panel, you will also now see a tab labelled "Git". Click on this and you will probably see:
 
 ![](figs/git_tab_initial.png)
 
@@ -250,6 +250,71 @@ In practice I use git in a much simpler way, in that as soon as I have staged my
 * corrected faulty code in graph
 
 Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits.
+
+# 8. Pushing your commit back to GitHub
+If you are very sharp-sighted, you might notice the following message displayed in small print under the Git tab:
+
+`Your branch is ahead of 'origin/master' by 1 commit`
+
+The `origin` is the cryptic term used for the remote repository on GitHub. I don't particularly like this term, and nor do lots of people, but we're stuck with it. It basically means, in English, that your local repository is out of synchrony with your remote repository. We therefore need to "Push" our changes to GitHub. This is the real test of whether the SSH system is working correctly. Click the Push button, a window should be displayed temporarily as network and security connections are configured, and your updated repository should be uploaded.
+
+Login to GitHub again and have a look at your repository. With any luck you will now be able to see your updated repository that includes the `.Rproj` file, and also any comments from your commit. If you were already logged into GitHub, you should refresh your browser screen.
+
+## 8.1 Unable to pull or push
+At this point you may discover some sort of "RStudio, Git and GitHub Hell", in that you cannot pull or push your repository to/from GitHub, it asks and rejects passwords etc. There are lots of different solutions, depending on Windows vs MacOS. Have a look at <https://happygitwithr.com/troubleshooting.html> for possible solutions. Also check via the BIO8068 Teams website and myself and demonstrators will try and help.
+
+## 8.2 When to commit, pull and push
+It is essential to keep your remote GitHub repository in sync with your local one. Before you begin any work on your RStudio project, **pull** the latest version from GitHub. Before closing down RStudio, **pull** the latest version back to GitHub. I usually push to GitHub regularly as I do my work. In fact, virtually every time I've solved a minor bug or made a small step forward in my R code, I save the script, and commit it. The basic rule is **if in doubt, commit** as it is better to commit than not. With SSH configured correctly, the whole procedure becomes virtually seamless and only takes a couple of seconds. You can double check that everything is OK with the `git status` command typed at the `$` prompt of the RStudio Terminal (not R Console) window. If the local and remote repositories are in sync, it should return:
+
+`$ git status`
+
+`On branch master`
+
+`Your branch is up to date with 'origin/master'.`
+
+`nothing to commit, working tree clean`
+
+# 9. Getting to grips with git
+## 9.1 Basic edits in a sequence
+### 9.1.1 Add some R and csv files
+Open up File Explorer, and find an R project folder that you used in NES8010 Quantitative Methods module. Copy over the minimum needed to repeat one small analysis from that module, e.g. the relevant R script(s) and csv file(s), being aware that depending on how you structured your NES8010 work you may have sub-folders with data. After you have copied them into your `example-git` project folder, go back to RStudio. Click on the `Git` tab, and you will see that git has immediately spotted the arrival of these new files or folders. All of them will be tagged with a `?` symbol as they are untracked. Add them to your local repository, click the Commit button, and commit with a suitable message such as "Added a few data and R files from NES8010 example". Push the changes to GitHub.
+
+### 9.1.2 Check R and csv files work nicely together
+Now run the R script, and check that it works OK in the new folder. If it doesn't, for example if you "hard-coded" paths to csv files so they are no longer found, make minor changes. Save the minor changes, and you will see that the `Git` tab now displays a blue `M` for modified symbol against the R script. Make another commit, with a message, and push to GitHub.
+
+### 9.1.3 Minor edits, commits and history
+Now that you have a working version of one of your original NES8010 analyses functioning, play around with editing the R script. This can be quite simple, for example, changing axis labels on a graph, changing colours in a graph, adding or removing variables from a statistical model. Each time you make one of these changes **and it is successful**, then save the file, make a commit, and push to GitHub. As a general rule I would not advise doing a commit with broken code if you have bugs and error messages. After making 3 to 5 commits, click on the **History** button on the Git tab. Here is an example for me:
+
+![](figs/history_in_RStudio.png)
+
+On the left hand side you can see the commit comments, up to the most recent commit where the 'HEAD' is currently pointing (looking). You can see the Author, which is all the same person since only one person is using this project. On the far right is a column called SHA which provides a unique code to retrieve any git commit should you need to.
+
+## 9.2 Recovering an earlier version
+It is easy to make mistakes. Let's make a deliberate one, to demonstrate how easy it is to recover. In your File Explorer, go into your `example-git` project folder, and delete one of your CSV files that you know is essential for your R script to run. After you have deleted the file, go back to RStudio and look in the Git tab. A big red `D` will be displayed next to the deleted file. Stage this change using the tick-box, then click Commit. In the message box, explain you are deliberately deleting a file. Make the commit, and push the commit through to GitHub.
+
+Oh dear. Now when you run your R script it will fail, because you have (deliberately) deleted a data file it needs. It has also gone from GitHub. Luckily, it is easy to recover from the mistake. Open up the History window again, and write down the SHA code of the most recent commit. Next, open up the Terminal window with the `$` prompt. **You can also in the Git tab click on the More button** which provides slightly better functionality in a pop-up window if you prefer. Suppose your SHA code is `73w123p9` and the file I "accidentally" deleted was called `nes8010_veg.csv` stored in a `data` subfolder. Then at the `$` prompt type:
+
+`git checkout 73w123p9^1 -- data/nes8010_veg.csv`
+
+The little `^1` means "before the previous commit". All being well, it should safely bring back your deleted file, and you can breath a sigh of relief. You can also use the SHA code to "checkout" any earlier version of your repository to work on.
+
+## 9.3 Branches
+These are typically used in multi-user projects, but I find them helpful even for solo research. If you have a reasonably well-functioning piece of code, but want to experiment with a new approach that involves a lot of changes, sometimes it is safer to create a "branch" from your main code, check that everything works OK in the branch, then once you are happy "merge" the branch safely back into the new code. You can create branches using the `git branch` command in the Terminal, or even via the "New Branch" button on the Git tab in RStudio. Suppose you want to create a branch to test out some fancy new ggplots, that you are going to call `fancyplot` (branch names cannot have spaces), then at the Terminal simply type:
+
+`git status` (check everything is commit and up-to-date)
+`git branch fancyplot` (creates the new branch)
+`git checkout fancyplot` (switch to the new branch)
+
+Alternatively, in RStudio's "New Branch" window:
+
+![](figs/branch.png)
+
+simply enter `fancyplot` in the branch name and click Create. You will immediately switch to the fancyplot branch, and all commits will be made there. When you are happy with your changes, go back to ther Terminal `$` prompt and:
+
+`git checkout master` (go back to the main development branch)
+`git merge fancyplot` (merges in the new edits)
+
+**Note** Sometimes a `git merge` fails. This is usually when you have switched back and forth between the branch and master, with multiple commits, and part of the same file has been edited. This results in git being unsure which section you wish to keep, and you have to manually edit the differences. See <https://happygitwithr.com/git-branches.html#dealing-with-conflicts> for an example.
 
 
 You already have an existing (local) repository on your machine, so it is the second option you want. However, before we go futher, we need to set up some security Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
