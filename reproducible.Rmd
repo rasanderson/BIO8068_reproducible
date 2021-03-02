@@ -220,7 +220,37 @@ Into the **Repository URL:** paste your version of the `git@github.com:rasanders
 Finally, click **Create Project** to automatically create the project and download the information from GitHub.
 
 # 7. Making your first commit
-<to do> explain initial steps
+When you create an RStudio project it automically creates a file that ends in `.RProj` to contain the various settings associated with that project. You can change these settings at any time via the "Tools -> Project options" main menu. At first sight this new project will appear the same as any other, except the Files tab also shows the .gitignore file created in GitHub. In the top-right panel, you will also now see a tab labelled "Git". Click on this and you will probably see:
+
+![](figs/git_tab_initial.png)
+
+This lists the status of all files being tracked by git. Any files you do not want to be tracked are listed in .gitignore. At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. 
+
+You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, as shown below, and submit your commit:
+
+![](figs/git_commit_window_in_R.png)
+
+You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
+
+![](figs/git_workflow.png)
+
+In practice I use git in a much simpler way, in that as soon as I have staged my files, I do a commit. This is the easiest thing to do if (like me!) you still haven't learnt the full power of git. However, it is important that your messages with your commits are clear and informative:
+
+**Good commit messages**
+
+* added a function to display land cover map
+* corrected bug in second ggplot call for scatter plot of farms
+* linear model results displayed in formatted table
+* interactive slider for year added
+
+**Weak or ambiguous commit message**
+
+* fixed some bugs
+* edited the display_sheep function
+* corrected faulty code in graph
+
+Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits.
+
 
 You already have an existing (local) repository on your machine, so it is the second option you want. However, before we go futher, we need to set up some security Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
 
@@ -248,31 +278,7 @@ Ensure that you tick the box labelled git version control. When your project sta
 
 At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. Before going any further, it would be useful to configure git so that it knows your email address and name (particularly useful for collaborative projects). This needs to be done from a git command line; click on the Cogwheel symbol labelled `More` in the RStudio Git tab, and click on `Command Shell`. A blank window will appear, in which you should enter the following (changed for your name and email):
 
-Type `exit` to close the git command window. You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, and submit your commit:
-
-![](figs/git_commit_window_in_R.png)
-
-You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
-
-![](figs/git_workflow.png)
-
-In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. This is the easiest thing to do if (like me!) you still haven't learnt the full power of git. However, it is important that your messages with your commits are clear and informative:
-
-**Good commit messages**
-
-* added a function to display land cover map
-* corrected bug in second ggplot call for scatter plot of farms
-* linear model results displayed in formatted table
-* interactive slider for year added
-
-**Weak or ambiguous commit message**
-
-* fixed some bugs
-* edited the display_sheep function
-* corrected faulty code in graph
-
-Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits. A common question is **
-
+Type `exit` to close the git command window. 
 # 3. Add some files and start editing
 Copy your data folder and R script from the `oystercatchers` example into your `git_example` folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
 
