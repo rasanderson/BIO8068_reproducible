@@ -24,7 +24,7 @@ The most popular version control system is git, which is installed on the Campus
 
 This allows you to track the history of changes you've made to a file:
 
-![](figs/history_tracking_in_general.PNG)
+![](figs/history_tracking_in_general.png)
 
 Most importantly, if you need to, you can easily go back to an earlier version of your file. It is too easy in my experience to have some ecological analysis working perfectly in R, go back to it a few days later, a couple of minor edits, and suddenly it doesn't work but you don't know why. With and without version control:
 
@@ -35,7 +35,7 @@ knitr::include_graphics("figs/with_and_without_git.png")
 
 If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
 
-![](figs/history_tracking_in_collaborative.PNG)
+![](figs/history_tracking_in_collaborative.png)
 
 ## 2.1 Checking if git is already installed
 Git is a separate program to RStudio and so needs to be setup independently. First of all you have to check whether git has already been installed onto your machine; it varies and it may have already installed it indirectly from another programme. To check, the easiest method is to use the command 'shell'. This is a window into which you can type commands that the computer's underlying operating system understand. The easiest way of doing this is from inside RStudio. Simply click on the menu `Tools -> Terminal -> New Terminal` and you should notice that instead of the RStudio Console window, you now have an RStudio Terminal window. The only obvious difference is that the Console window begins:
@@ -189,26 +189,72 @@ Into the *Title* box enter something informative such as "My laptop" or "Univers
 
 You'll be relieved to know that these steps only have to be done once on your computer. However, if you have multiple computers, you will have to create additional private-public SSH keys. So I have a key-pair for the computer in my office at work, and a separate one for my laptop, both registered with Github.
 
+# 6. Getting started with git and GitHub
+Using git and GitHub in RStudio requires you to use RStudio projects. Hopefully you are now familiar with projects from other modules and aware of their advantages in keeping material together in one set of folders, such as R scripts, data analysis files etc. From now on, when working in RStudio, you have two alternative options when creating a new project:
 
+* Create a remote repository in GitHub first, and pull the empty repository into a new project in RStudio (recommended)
+* Create a local repository in a new RStudio project first, and push it into GitHub
+
+Personally, I always find the first method easiest, and recommend that you follow that. There is of course a third option, where you have an existing local RStudio project, already with a local repository and files, that you want to push to GitHub. All the options are fully described at <https://happygitwithr.com/usage-intro.html> should you wish to explore them. We will create a remote repository on GitHub, and pull it into a new RStudio project as our 'default' method. Please ask me if you ever need to use alternative approaches.
+
+Login to GitHub. Click the large *+* sign to add a new repository, or the green "New" button. A screen similar to the following will be displayed, and I am going to call my repository **git-example**:
+
+![](figs/github_create_repository.png)
+
+Add a short description for your repository and set the repository as public (default). It is useful to initialise your repository with a README file. Tick the option for a **.gitignore** template. On ticking this option, a dropdown list will appear, and select (or search) for R. The special .gitignore file is used to store the names of any files that you do **not** want to be tracked for version control. The following screen (or similar) will be displayed:
+
+![](figs/clone_with_ssh.png)
+
+This gives you several options, such as creating or pushing a repository on the command line, which look too complicated. Luckily you only need to copy the top line of `git@github.com:rasanderson/git-example.git` (press the Copy button at the top right). Just ensure you have the SSH tab selected.
+
+Now switch back to RStudio. Click on "File -> New Project" which should display the following menu:
+
+![](figs/R_new_project.png)
+
+Select the third option "Version Control" to allow you to pull your GitHub repository back. The next screen asks you to create a project from version control probably giving a choice between Git and SVN. Select the Git option, and the following screen will be displayed:
+
+![](figs/clone_git_in_RStudio.png)
+
+Into the **Repository URL:** paste your version of the `git@github.com:rasanderson/git-example.git` that you copied from your new repository in GitHub. That will automatically fill in the **Project directory name** with the name of the repository. Note that a "directory" is the same as a "folder". You can change this folder name if you want to at this stage. The Project directory will be created as a subfolder of the third box, and click the "Browse" button.
+
+Finally, click **Create Project** to automatically create the project and download the information from GitHub.
+
+# 7. Making your first commit
+<to do> explain initial steps
+
+You already have an existing (local) repository on your machine, so it is the second option you want. However, before we go futher, we need to set up some security Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
+
+```{r github setup commands, eval=FALSE}
+git remote add origin https://github.com/rasanderson/git_example.git
+git push -u origin master
+```
+
+In RStudio, from the Git tab open the Command window, and enter the above lines. You will probably receive an error as it will need to know your Github username and password. Once these are entered, your files will be uploaded onto Github. If you go back to Github, you will see your R script, R project files, and the data folder all listed, plus all the commits:
+
+![](figs/github_commits.png)
+
+This is very useful. For example, I find that I can commit and push work from inside RStudio, you can use the Pull and Push buttons, which becom active in RStudio once Github is connected. Then if I am working at home I can 'Pull' the latest version of the code, edit it, 'Push' it back to the repository. On return to the office the following day, I then 'Pull' the changes back from Github. No more need to carry USB sticks around or forget what changes you made!
+
+Git and Github are both extremely powerful tools, and there are large amounts of online tutorials and videos available. Useful tricks include creating 'branches' to test out new ideas, or moving the 'head' back to an earlier position if you want to work on and older version of your research. The easiest way to learn is to play around with a dummy R script, pushing and pulling changes from different commits. If you make a mistake it doesn't matter.
 
 
 We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
 
-![](figs/local_git_setup_in_R.PNG) 
+![](figs/local_git_setup_in_R.png) 
 
 Ensure that you tick the box labelled git version control. When your project starts up it will look no different from any other project, except a file labelled `.gitignore` will have appeared. In this files you can list the names of other files and folders that you do *not* want to be monitored by your version control system. This might be e.g. a `data` folder containing a large amount of raw data that rarely changes. The other difference from a standard R Project is that there is now a `git` tab in the top-right panel:
 
-![](figs/git_tab_initial.PNG)
+![](figs/git_tab_initial.png)
 
 At the moment you git tab just contains the names of two files, the .gitignore file, and the file for the R Project itself (.Rpoj). You'll notice that in the "Status" column next to their filenames is a yellow question mark, indicating that the files are "untracked" by git. Before going any further, it would be useful to configure git so that it knows your email address and name (particularly useful for collaborative projects). This needs to be done from a git command line; click on the Cogwheel symbol labelled `More` in the RStudio Git tab, and click on `Command Shell`. A blank window will appear, in which you should enter the following (changed for your name and email):
 
 Type `exit` to close the git command window. You are now ready to make an initial commit. First tick on the 'Staged' boxes next to the two filenames (the yellow '?' will change to a green A for 'added' symbol), click on the Commit button, write a short piece of text to describe what you've done, and submit your commit:
 
-![](figs/git_commit_window_in_R.PNG)
+![](figs/git_commit_window_in_R.png)
 
 You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
 
-![](figs/git_workflow.PNG)
+![](figs/git_workflow.png)
 
 In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. This is the easiest thing to do if (like me!) you still haven't learnt the full power of git. However, it is important that your messages with your commits are clear and informative:
 
@@ -234,7 +280,7 @@ Now start to edit your `oystercatcher.R` file (or whatever you called it). In my
 
 After saving your file git should automatically spot that it has been modified, and the R script will be displayed in the git window, with a blue 'M' for modified symbol next to it. Should it not display, click on the clockwise 'refresh' arrow at the top right. Stage the file (click the checkbox) and make another commit again with a suitable message.  You will notice that additions are highlighted in green, deletions in red, for example:
 
-![](figs/red_and_green_review_pain.PNG)
+![](figs/red_and_green_review_pain.png)
 
 You will recall that the three-way interaction term in the oystercatcher data was meaningless, so edit your R script again to include the the analysis omitting the 3-way term, and summarise the results. Rather than re-specify the whole model, the update function is useful:
 
@@ -248,34 +294,11 @@ Save the script and make another commit, with suitable message. Finally, perhaps
 
 Now, if in the git tab you click on the "History" button you will see a list of your commits, with comments:
 
-![](figs/history_in_RStudio.PNG)
+![](figs/history_in_RStudio.png)
 
 (*Note*: on some University Cluster Windows 10 PCs the author emails are not always configured correctly, as you can see here).
 
 
-
-Click the large *+* sign to add a new repository, giving it the same name as your example RStudio project. Here is a screenshot of the appearance for me:
-
-![](figs/github_create_repository.png)
-
-Set the repository as public (default) and don't add a ReadMe file. The following screen (or similar) will be displayed:
-
-![](figs/clone_with_ssh.png)
-
-You already have an existing (local) repository on your machine, so it is the second option you want. However, before we go futher, we need to set up some security Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
-
-```{r github setup commands, eval=FALSE}
-git remote add origin https://github.com/rasanderson/git_example.git
-git push -u origin master
-```
-
-In RStudio, from the Git tab open the Command window, and enter the above lines. You will probably receive an error as it will need to know your Github username and password. Once these are entered, your files will be uploaded onto Github. If you go back to Github, you will see your R script, R project files, and the data folder all listed, plus all the commits:
-
-![](figs/github_commits.PNG)
-
-This is very useful. For example, I find that I can commit and push work from inside RStudio, you can use the Pull and Push buttons, which becom active in RStudio once Github is connected. Then if I am working at home I can 'Pull' the latest version of the code, edit it, 'Push' it back to the repository. On return to the office the following day, I then 'Pull' the changes back from Github. No more need to carry USB sticks around or forget what changes you made!
-
-Git and Github are both extremely powerful tools, and there are large amounts of online tutorials and videos available. Useful tricks include creating 'branches' to test out new ideas, or moving the 'head' back to an earlier position if you want to work on and older version of your research. The easiest way to learn is to play around with a dummy R script, pushing and pulling changes from different commits. If you make a mistake it doesn't matter.
 
 # 5. Using Github Classroom
 ## 5.1 Setup
