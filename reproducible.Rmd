@@ -26,7 +26,14 @@ This allows you to track the history of changes you've made to a file:
 
 ![](figs/history_tracking_in_general.PNG)
 
-Most importantly, if you need to, you can easily go back to an earlier version of your file. If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
+Most importantly, if you need to, you can easily go back to an earlier version of your file. It is too easy in my experience to have some ecological analysis working perfectly in R, go back to it a few days later, a couple of minor edits, and suddenly it doesn't work but you don't know why. With and without version control:
+
+```{r echo=FALSE, warning=FALSE, out.width="250px"}
+knitr::include_graphics("figs/with_and_without_git.png")
+```
+
+
+If you are working in a team with other scientists this becomes particularly powerful, as you can 'merge' changes made by different staff:
 
 ![](figs/history_tracking_in_collaborative.PNG)
 
@@ -89,7 +96,7 @@ Before you can use git it is best to configure it properly. At a minimum, it is 
 The last command simply checks that git has stored the configuration correctly, and should return the information you have just entered. Having your email and username configured is particularly useful should you do any collaborative work so that it is easy to track who has made which changes.
 
 # 4. What is a "Repository"?
-As soon as you start reading about git, you will come across the word _repository_, often shortened to "repo". A repository is simply a folder that is under git version control. It contains some special files and folders to track all the different edits and changes you are making to your R scripts. Importantly, a repository can also be "pushed" or "pulled" to and from a remote webserver, to allow easy collaboration. Indeed, even if doing a project on your own, it is sometimes easier if you also use a **remote** repository, as I find it saves me having to remember to copy files from my PC at work, to my laptop at home etc.
+As soon as you start reading about git, you will come across the word _repository_, often shortened to "repo". A repository is simply a folder that is under git version control. It contains some special files and folders to track all the different edits and changes you are making to your R scripts. Importantly, a **local repository** stored on your own PC can also be "pushed" or "pulled" to and from an internet server, where it is called a **remote repository**. This allows easy collaboration. Even if doing a project on your own, it is sometimes easier if you also use a remote repository as it saves having to remember to copy files from e.g a PC at work, to a laptop at home etc.
 
 
 We'll begin by simply creating a git "repository" locally on your PC and saving some R scripts. Start up RStudio, and begin a new project. When you get to the following screen:
@@ -106,30 +113,31 @@ Type `exit` to close the git command window. You are now ready to make an initia
 
 ![](figs/git_commit_window_in_R.PNG)
 
-It is possible you may get a warning message about the author name and email (sometimes the configuration does not store correctly on Windows), in which case simple follow the instructions (check with me):
-
-```{r git warning messages, eval=FALSE}
-git config --global --edit
-git commit --amend --reset-author
-```
-
 You may be wondering what the "Staged" process did, and how this relates to Commit. The basic structure is shown below:
 
 ![](figs/git_workflow.PNG)
 
-In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. However, it is important that your messages with your commits are clear and informative:
+In practice I use git in a fairly simple way, in that as soon as I have staged my files, I do a commit. This is the easiest thing to do if (like me!) you still haven't learnt the full power of git. However, it is important that your messages with your commits are clear and informative:
 
-* added function to display land cover map (good)
-* corrected bug in second ggplot call for scatter plot of farms (good)
-* fixed some bugs (bad)
-* edited the display_sheep function (bad)
+**Good commit messages**
 
-Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits.
+* added a function to display land cover map
+* corrected bug in second ggplot call for scatter plot of farms
+* linear model results displayed in formatted table
+* interactive slider for year added
+
+**Weak or ambiguous commit message**
+
+* fixed some bugs
+* edited the display_sheep function
+* corrected faulty code in graph
+
+Your comments have to be useful and meaningful. So don't make a commit after a few minor edits; you may want to check details from previous commits, so think of them as providing a table of contents of your edits. A common question is **
 
 # 3. Add some files and start editing
-Copy your data folder and R script from the oystercatchers example into your git_example folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
+Copy your data folder and R script from the `oystercatchers` example into your `git_example` folder. Git will immediately recognise that you have added the new folder (with its file), as well as the R script, so stage them, run a new commit, with a suitable message.
 
-Now start to edit your oystercatcher.R file (or whatever you called it). In my version, there are very few comments, and I have also not set up easy navigation of the file by creating a table of contents (ToC). You can do the latter by adding `####` or `----` at the end of any comment line. The text in the comment will be added to the ToC, which can be easily accessed from the click box at the bottom of the editor window, or pressing the button on the top right. This is very useful for long R scripts to help you navigate. Tidy up your R code, save your file.
+Now start to edit your `oystercatcher.R` file (or whatever you called it). In my version, there are very few comments, and I have also not set up easy navigation of the file by creating a table of contents (ToC). You can do the latter by adding `####` or `----` at the end of any comment line. The text in the comment will be added to the ToC, which can be easily accessed from the click box at the bottom of the editor window, or pressing the button on the top right. This is very useful for long R scripts to help you navigate. Tidy up your R code, save your file.
 
 After saving your file git should automatically spot that it has been modified, and the R script will be displayed in the git window, with a blue 'M' for modified symbol next to it. Should it not display, click on the clockwise 'refresh' arrow at the top right. Stage the file (click the checkbox) and make another commit again with a suitable message.  You will notice that additions are highlighted in green, deletions in red, for example:
 
@@ -149,20 +157,109 @@ Now, if in the git tab you click on the "History" button you will see a list of 
 
 ![](figs/history_in_RStudio.PNG)
 
-(*Note*: on some Windows 10 PCs the author emails are not always configured correctly, as you can see here).
+(*Note*: on some University Cluster Windows 10 PCs the author emails are not always configured correctly, as you can see here).
 
-# 4. Github and Gitlab
-Github and Gitlab provide "remote" repositories, which allow you to push or pull or your git files, plus their entire history, to the online site. They both have user-friendly interfaces, and are similar to use, and free to register. Github is much more popular (it is the older system) and is a commercial, close-source product. Gitlab is newer, open-source (you can host it on your own server). From the user's perspective, on Github anyone can view your repositories unless you pay a monthly subscription, whereas on Gitlab you can have private or public repositories at now charge. However, nearly all the documentation online you will encounter will relate to Github, so we will use that for this module.
+# 4. Github
+Github provides "remote" repositories, which allow you to push or pull or your git files, plus their entire history, to the online site. It has a user-friendly interface, and free to register. On Github anyone can view your repositories unless you pay a monthly subscription, or based in higher education, when you can have private or public repositories at now charge. Alternative systems such as GitLab exist which are very similar, however, nearly all the documentation online you will encounter will relate to Github, so we will use that for this module.
 
-Begin by going to <https://github.com> and registering for a free account. After you have entered all your details, and confirmed your email and username. Click the large *+* sign to add a new repository, giving it the same name as your example RStudio project. Here is a screenshot of the appearance for me:
+Begin by going to <https://github.com> and registering for a free account. You will have to enter a username and email. Use you University email address, but I do not recommend you use your University username. This is partly on security grounds (your username is a fairly long alphanumeric code), but more importantly after you have graduated you may want to continue using GitHub in your professional career. Good usernames are something meaningful, based on your real forename, surname or initials. A few suggestions:
 
-![](figs/github_new_repository.PNG)
+* use entirely lower case letters for your username
+* do not have any spaces in your username
+* if you want to separate parts of your name, use underscores `_` rather than dashes `-`
+
+My username on GitHub is `rasanderson`. If you have a social media account such as Twitter, you may wish to user the same username for consistency.
+
+After you have entered all your details, confirm your email and username. You may need to check your University email account to acknowledge receipt of email to confirm registration.
+
+# 5. Github security
+Until July 2020 GitHub offer two methods of accessing 'pushing' your files to their systems, including plain passwords via HTTPS, secure shell protocols SSH. It has now started to offer multi-factor authentication (MFA or 2FA) whereby an additional code is sent to your smartphone. From July 2021 password authentication via HTTPS is going to be withdrawn due to concerns about security breaches. This means that you have to use either SSH or MFA to push files to a repository, even a 'public' one. Whilst this is more secure, it is a little bit more difficult to setup. I have had problems with MFA, so recommend that you try setting this up. SSH security consists of two "keys", one of which is 'private' and you keep on your PC, the other is 'public' which you give to GitHub. The keys use some clever encryption, known as "RSA", so that they know how to talk to each other, like some sort of lock-and-key mechanism, where you cannot actually understand what is going on. Thankfully, RStudio and Github make this easy to setup. There are three steps:
+
+1. Generate (if needed) the linked private and public "keys" used by SSH and store in two files
+2. Add the private key to a background program that runs on your computer
+3. Give the public key to GitHub
+
+## 5.1 Check if you already have keys, and if needed, create them
+It is possible that you already have keys setup. The easiest way of doing this is inside RStudio click on the "Tools -> Global options -> Git/SVN" menus, and you might see a screen like this:
+
+![](figs/rstudio_git_svn_window.png)
+
+You can see that I have something already listed in ths SSH RSH key box, because I have already setup the relevant keys. It might be blank for you if this is the first time that you have used it. Assuming you do not have keys setup, click on the button **Create RSA key**. RStudio will prompt you for a passphrase, but this is optional and for simplicity I don't bother setting one up. Click **Create** and RStudio will create two files:
+
+* a "private" key, probably stored in `~/.ssh/id_rsa`
+* a "public" key, probably stored in `~/.ssh/id_rsa.pub`
+
+Make a note of where the `id_rsa` key has been stored; re-open the RStudio Tools -> Global Options -> Git/SVN window if needed, as you will need the information shortly.
+
+## 5.2 Tell your local machine about these keys
+Your local machine needs to know that these keys exist, and it has a little program called an "ssh-agent" running which we need to start running quietly in the background to check on them. The instructions differ slightly for Windows vs Macs.
+
+### 5.2.1 Add keys to ssh-agent on Windows 10 PCs
+In the RStudio **Terminal** window (i.e. not the usual Console window), at the `$` prompt type:
+
+`eval $(ssh-agent -s)`
+
+and hopefully it will display something like
+
+`Agent pid 6508`
+
+(The exact number you get will be different). This is the process identification number of the little ssh-agent program that is now running in the background. You then need to add your private key, held in the `id_rsa` file, to this agent. You made a note of where this file is stored earlier. To add this key to the ssh-agent, at the `$` prompt type:
+
+`ssh-add ~/.ssh/id_rsa`
+
+**Note** Depending on your PC, the exact path to the `id_rsa` may be different.
+
+### 5.2.2 Add keys to ssh-agent on Mac OS
+It is probably better to open a MacOS Terminal window, rather than use the RStudio Terminal for these commands. At the `$` prompt type:
+
+`eval "$(ssh-agent -s)"`
+
+and hopefully it will return:
+
+`Agent pid 6508`
+
+However, MacOS has tighter security than Windows, and you may receive an error about `mkdtemp: private socket dir: No such file or directory` or an error `Permission denied`. In this case, you need to elevate your security permissions using the `sudo` command. At the `$` prompt type:
+
+`sudo su`
+
+which will ask you for your administrator password. Enter this (it will not be displayed on screen), and the prompt will change from `$` to `#` to indicate you have administrator rights. Now, at the `#` prompt try:
+
+`eval "$(ssh-agent -s)"`
+
+and you should get a process id number displayed. Now that the ssh-agent program is running, you should type `exit` to leave administrator mode, and return to normal user, and the `$` prompt. Finally, you can add your private key to this, using the path to the `id_rsa` file you noted down earlier. At the `$` prompt enter:
+
+`ssh-add ~/.ssh/id_rsa`
+
+and hopefully this will successfully add your private key.
+
+## 5.3 Give GitHub the public SSH key
+The clever thing about SSH keys is that the public key is useless without the secret private key on your own PC. This makes it a very secure system, but also saves you having to type in usernames and passwords all the time. So the final step is to inform GitHub of the public key. First, copy it into your clipboard. To do this, in RStudio, go to the "Tools -> Global options -> Git/SVN" menu and click on the blue text "View public key". You should see something similar to:
+
+![](figs/public_rsa.png)
+
+Copy the public key onto your clipboard as suggested. Now go back to the GitHub website and login if you have not already done so. At the upper top-right of the main screen is a small down-arrow. Click on this and go to the Settings menu:
+
+![](figs/github_main_menu.png)
+
+On the screen that is displayed, on the left-hand side pick the menu tab called **SSH and GPG keys**. Click the green button to add a **New SSH key** and you should see the following screen:
+
+![](figs/github_new_ssh.png)
+
+Into the *Title* box enter something informative such as "My laptop" or "University account" etc. Then in the box below, simply paste the mysterious cryptic text of the public key that you copied from RStudio. Finally click the green button "Add SSH key".
+
+You'll be relieved to know that these steps only have to be done once on your computer. However, if you have multiple computers, you will have to create additional private-public SSH keys. So I have a key-pair for the computer in my office at work, and a separate one for my laptop, both registered with Github.
+
+
+
+Click the large *+* sign to add a new repository, giving it the same name as your example RStudio project. Here is a screenshot of the appearance for me:
+
+![](figs/github_create_repository.png)
 
 Set the repository as public (default) and don't add a ReadMe file. The following screen (or similar) will be displayed:
 
-![](figs/github_quick_setup_screen.PNG)
+![](figs/clone_with_ssh.png)
 
-You already have an existing (local) repository on your machine, so it is the second option you want. Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
+You already have an existing (local) repository on your machine, so it is the second option you want. However, before we go futher, we need to set up some security Conveniently, the Github screen has a little copy button next to the key commands, which for me are:
 
 ```{r github setup commands, eval=FALSE}
 git remote add origin https://github.com/rasanderson/git_example.git
