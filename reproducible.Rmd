@@ -2,10 +2,10 @@
 title: 'Reproducible research: Version control with git and GitHub'
 subtitle: BIO8068 Data visualisation in ecology
 output:
-  word_document:
-    reference_docx: template.docx
   html_document:
     df_print: paged
+  word_document:
+    reference_docx: template.docx
 ---
 
 # 1. Introduction
