@@ -2,10 +2,10 @@
 title: "Using RMarkdown for reproducible research"
 author: "BIO8068 Data visualisation in Ecology"
 output:
-  html_document:
-    df_print: paged
   word_document:
     reference_docx: template.docx
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
