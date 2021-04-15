@@ -254,7 +254,7 @@ Your comments have to be useful and meaningful. So don't make a commit after a f
 # 8. Pushing your commit back to GitHub
 If you are very sharp-sighted, you might notice the following message displayed in small print under the Git tab:
 
-`Your branch is ahead of 'origin/master' by 1 commit`
+`Your branch is ahead of 'origin/main' by 1 commit`
 
 The `origin` is the cryptic term used for the remote repository on GitHub. I don't particularly like this term, and nor do lots of people, but we're stuck with it. It basically means, in English, that your local repository is out of synchrony with your remote repository. We therefore need to "Push" our changes to GitHub. This is the real test of whether the SSH system is working correctly. Click the Push button, a window should be displayed temporarily as network and security connections are configured, and your updated repository should be uploaded.
 
@@ -271,9 +271,9 @@ It is essential to keep your remote GitHub repository in sync with your local on
 
 `$ git status`
 
-`On branch master`
+`On branch main`
 
-`Your branch is up to date with 'origin/master'.`
+`Your branch is up to date with 'origin/main'.`
 
 `nothing to commit, working tree clean`
 
@@ -314,10 +314,10 @@ Alternatively, in RStudio's "New Branch" window:
 
 simply enter `fancyplot` in the branch name and click Create. You will immediately switch to the fancyplot branch, and all commits will be made there. When you are happy with your changes, go back to ther Terminal `$` prompt and:
 
-`git checkout master` (go back to the main development branch)
+`git checkout main` (go back to the primary development branch)
 `git merge fancyplot` (merges in the new edits)
 
-**Note** Sometimes a `git merge` fails. This is usually when you have switched back and forth between the branch and master, with multiple commits, and part of the same file has been edited. This results in git being unsure which section you wish to keep, and you have to manually edit the differences. See <https://happygitwithr.com/git-branches.html#dealing-with-conflicts> for an example.
+**Note** Sometimes a `git merge` fails. This is usually when you have switched back and forth between the branch and main, with multiple commits, and part of the same file has been edited. This results in git being unsure which section you wish to keep, and you have to manually edit the differences. See <https://happygitwithr.com/git-branches.html#dealing-with-conflicts> for an example.
 
 # 10. Experiment
 Begin by playing around. Do lots of commits. Deliberately make mistakes. Make and merge branches. Check what happens on GitHub. That way you will become more confident in using git and GitHub. If you find you are getting confused by too many commit messages, consider the "Repeated Git Amend" approach <https://happygitwithr.com/repeated-amend.html> which provides a smoother workflow, at the cost of having to learn more Terminal commands for git.
