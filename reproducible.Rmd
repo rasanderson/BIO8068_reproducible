@@ -295,11 +295,19 @@ On the left hand side you can see the commit comments, up to the most recent com
 ## 9.2 Recovering an earlier version
 It is easy to make mistakes. Let's make a deliberate one, to demonstrate how easy it is to recover. In your File Explorer, go into your `example-git` project folder, and delete one of your CSV files that you know is essential for your R script to run. After you have deleted the file, go back to RStudio and look in the Git tab. A big red `D` will be displayed next to the deleted file. Stage this change using the tick-box, then click Commit. In the message box, explain you are deliberately deleting a file. Make the commit, and push the commit through to GitHub.
 
-Oh dear. Now when you run your R script it will fail, because you have (deliberately) deleted a data file it needs. It has also gone from GitHub. Luckily, it is easy to recover from the mistake. Open up the History window again, and write down the SHA code of the most recent commit. Next, open up the Terminal window with the `$` prompt. **You can also in the Git tab click on the More button** which provides slightly better functionality in a pop-up window if you prefer. Suppose your SHA code is `73w123p9` and the file I "accidentally" deleted was called `nes8010_veg.csv` stored in a `data` subfolder. Then at the `$` prompt type:
+Oh dear. Now when you run your R script it will fail, because you have (deliberately) deleted a data file it needs. It has also gone from GitHub. Luckily, it is easy to recover from the mistake. Open up the History window again, and write down the SHA code of the most recent commit. Next, open up the Terminal window with the `$` prompt. **You can also in the Git tab click on the More button** which provides slightly better functionality in a pop-up window if you prefer. To see the SHA codes for all your commits, go to the **Terminal** window (not the Console) and type:
 
-`git checkout 73w123p9^1 -- data/nes8010_veg.csv`
+`git log`
 
-The little `^1` means "before the previous commit". All being well, it should safely bring back your deleted file, and you can breath a sigh of relief. You can also use the SHA code to "checkout" any earlier version of your repository to work on.
+The SHA codes are very long, about 30 or so letters and numbers, and provide a unique tracking method, especially on big collaborative projects. Luckily, you only need the first 8 characters. You can highlight and copy these with your mouse, or enter manually.
+
+Suppose your SHA code is `73w123p9` and the file I "accidentally" deleted was called `nes8010_veg.csv` stored in a `data` subfolder. Then at the `$` prompt type:
+
+`git checkout 73w123p9 data/nes8010_veg.csv`
+
+All being well, it should safely bring back your deleted file, and you can breath a sigh of relief. You can also use the SHA code to "checkout" any earlier version of your repository to work on, with all its files, in one go:
+
+`git checkout 73w123p9`
 
 ## 9.3 Branches
 These are typically used in multi-user projects, but I find them helpful even for solo research. If you have a reasonably well-functioning piece of code, but want to experiment with a new approach that involves a lot of changes, sometimes it is safer to create a "branch" from your main code, check that everything works OK in the branch, then once you are happy "merge" the branch safely back into the new code. You can create branches using the `git branch` command in the Terminal, or even via the "New Branch" button on the Git tab in RStudio. Suppose you want to create a branch to test out some fancy new ggplots, that you are going to call `fancyplot` (branch names cannot have spaces), then at the Terminal simply type:
@@ -312,7 +320,7 @@ Alternatively, in RStudio's "New Branch" window:
 
 ![](figs/branch.png)
 
-simply enter `fancyplot` in the branch name and click Create. You will immediately switch to the fancyplot branch, and all commits will be made there. When you are happy with your changes, go back to ther Terminal `$` prompt and:
+simply enter `fancyplot` in the branch name and click Create. You will immediately switch to the fancyplot branch, and all commits will be made there. You can easily switch between different branches using the dropdown menu at the top-right of RStudio's Git screen. When you are happy with your changes, go back to ther Terminal `$` prompt and:
 
 `git checkout main` (go back to the primary development branch)
 `git merge fancyplot` (merges in the new edits)
