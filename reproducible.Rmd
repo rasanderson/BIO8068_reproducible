@@ -258,6 +258,9 @@ If you are very sharp-sighted, you might notice the following message displayed 
 
 The `origin` is the cryptic term used for the remote repository on GitHub. I don't particularly like this term, and nor do lots of people, but we're stuck with it. It basically means, in English, that your local repository is out of synchrony with your remote repository. We therefore need to "Push" our changes to GitHub. This is the real test of whether the SSH system is working correctly. Click the Push button, a window should be displayed temporarily as network and security connections are configured, and your updated repository should be uploaded.
 
+### A note about master and main
+Virtually all the information you see about using Git and GitHub will refer to the **master** branch as being the primary one in which you work. However, as a result of the Black Lives Matter protests in 2020, a number of software companies, including GitHub changed the wording for some terms (to avoid 'master' and 'slave' branches in version control, 'whitelist', 'blacklist' etc.). From 1st October 2020 the primary branch in GitHub is called **main**.
+
 Login to GitHub again and have a look at your repository. With any luck you will now be able to see your updated repository that includes the `.Rproj` file, and also any comments from your commit. If you were already logged into GitHub, you should refresh your browser screen.
 
 ## 8.1 Unable to pull or push
