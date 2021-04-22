@@ -2,10 +2,10 @@
 title: 'Reproducible research: Version control with git and GitHub'
 subtitle: BIO8068 Data visualisation in ecology
 output:
-  word_document:
-    reference_docx: template.docx
   html_document:
     df_print: paged
+  word_document:
+    reference_docx: template.docx
 ---
 
 # 1. Introduction
@@ -267,7 +267,7 @@ Login to GitHub again and have a look at your repository. With any luck you will
 At this point you may discover some sort of "RStudio, Git and GitHub Hell", in that you cannot pull or push your repository to/from GitHub, it asks and rejects passwords etc. There are lots of different solutions, depending on Windows vs MacOS. Have a look at <https://happygitwithr.com/troubleshooting.html> for possible solutions. Also check via the BIO8068 Teams website and myself and demonstrators will try and help.
 
 ## 8.2 When to commit, pull and push
-It is essential to keep your remote GitHub repository in sync with your local one. Before you begin any work on your RStudio project, **pull** the latest version from GitHub. Before closing down RStudio, **pull** the latest version back to GitHub. I usually push to GitHub regularly as I do my work. In fact, virtually every time I've solved a minor bug or made a small step forward in my R code, I save the script, and commit it. The basic rule is **if in doubt, commit** as it is better to commit than not. With SSH configured correctly, the whole procedure becomes virtually seamless and only takes a couple of seconds. You can double check that everything is OK with the `git status` command typed at the `$` prompt of the RStudio Terminal (not R Console) window. If the local and remote repositories are in sync, it should return:
+It is essential to keep your remote GitHub repository in sync with your local one. Before you begin any work on your RStudio project, **pull** the latest version from GitHub. Before closing down RStudio, **push** the latest version back to GitHub. I usually push to GitHub regularly as I do my work. In fact, virtually every time I've solved a minor bug or made a small step forward in my R code, I save the script, and commit it. The basic rule is **if in doubt, commit** as it is better to commit than not. With SSH configured correctly, the whole procedure becomes virtually seamless and only takes a couple of seconds. You can double check that everything is OK with the `git status` command typed at the `$` prompt of the RStudio Terminal (not R Console) window. If the local and remote repositories are in sync, it should return:
 
 `$ git status`
 
@@ -295,19 +295,21 @@ On the left hand side you can see the commit comments, up to the most recent com
 ## 9.2 Recovering an earlier version
 It is easy to make mistakes. Let's make a deliberate one, to demonstrate how easy it is to recover. In your File Explorer, go into your `example-git` project folder, and delete one of your CSV files that you know is essential for your R script to run. After you have deleted the file, go back to RStudio and look in the Git tab. A big red `D` will be displayed next to the deleted file. Stage this change using the tick-box, then click Commit. In the message box, explain you are deliberately deleting a file. Make the commit, and push the commit through to GitHub.
 
-Oh dear. Now when you run your R script it will fail, because you have (deliberately) deleted a data file it needs. It has also gone from GitHub. Luckily, it is easy to recover from the mistake. Open up the History window again, and write down the SHA code of the most recent commit. Next, open up the Terminal window with the `$` prompt. **You can also in the Git tab click on the More button** which provides slightly better functionality in a pop-up window if you prefer. To see the SHA codes for all your commits, go to the **Terminal** window (not the Console) and type:
+Oh dear. Now when you run your R script it will fail, because you have (deliberately) deleted a data file it needs. It has also gone from GitHub. Luckily, it is easy to recover from the mistake. Open up the History window again, and write down the SHA code of the most recent commit. Next, open up the **Terminal** window with the `$` prompt. (You can also in the Git tab click on the More button which provides similar functionality in a pop-up window). To see the SHA codes for all your commits, go to the **Terminal** window (not the Console) and type:
 
 `git log`
 
-The SHA codes are very long, about 30 or so letters and numbers, and provide a unique tracking method, especially on big collaborative projects. Luckily, you only need the first 8 characters. You can highlight and copy these with your mouse, or enter manually.
+The SHA codes are very long, about 30 or so letters and numbers, and provide a unique tracking method, especially on big collaborative projects. Luckily, you only need the first 8 characters. You can highlight and copy these with your mouse, or enter manually. Look at your `git log` outputs and find the version that **still contains** the file you want (i.e. not the version where you did a commit on a deletion of a file).
 
-Suppose your SHA code is `73w123p9` and the file I "accidentally" deleted was called `nes8010_veg.csv` stored in a `data` subfolder. Then at the `$` prompt type:
+Suppose the file I accidentally deleted is called `nes8010_veg.csv` stored in a `data` subfolder. The SHA code of the last commit that still contains this file is `73w123p9` as looking at my `git log` output I can see that the next commit has the comment "deleted nes8010_veg.csv". To get the file back, go to the Terminal window and at the `$` prompt type:
 
 `git checkout 73w123p9 data/nes8010_veg.csv`
 
 All being well, it should safely bring back your deleted file, and you can breath a sigh of relief. You can also use the SHA code to "checkout" any earlier version of your repository to work on, with all its files, in one go:
 
 `git checkout 73w123p9`
+
+This will bring back everything from the original commit.
 
 ## 9.3 Branches
 These are typically used in multi-user projects, but I find them helpful even for solo research. If you have a reasonably well-functioning piece of code, but want to experiment with a new approach that involves a lot of changes, sometimes it is safer to create a "branch" from your main code, check that everything works OK in the branch, then once you are happy "merge" the branch safely back into the new code. You can create branches using the `git branch` command in the Terminal, or even via the "New Branch" button on the Git tab in RStudio. Suppose you want to create a branch to test out some fancy new ggplots, that you are going to call `fancyplot` (branch names cannot have spaces), then at the Terminal simply type:
